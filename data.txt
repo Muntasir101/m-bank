@@ -1,0 +1,9 @@
+Default Login Credentials:
+Customer: john@example.com / password123
+
+Customer: jane@example.com / password123
+
+Manager: manager@bank.com / manager123
+
+Manager Authorization Code:
+MANAGER2023

@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Bank Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #034153;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        /* User info in header */
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            color: white;
+        }
+        
+        .user-info i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        /* Home View */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        .user-type-selector {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .user-type-selector label {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s;
+        }
+        
+        .user-type-selector input[type="radio"] {
+            display: none;
+        }
+        
+        .user-type-selector input[type="radio"]:checked + label {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-message {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .balance-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .account-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .action-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .action-card i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Transaction History */
+        .transaction-history {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filters input, .filters select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .transaction-type {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        
+        .deposit {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .withdrawal {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+        
+        .transfer {
+            background-color: rgba(52, 152, 219, 0.2);
+            color: #2980b9;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            .user-actions {
+                margin-top: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .account-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 4px;
+            color: white;
+            z-index: 1100;
+            display: none;
+        }
+        
+        .notification.success {
+            background-color: var(--success);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+
+        /* Transaction View Modal */
+        .transaction-modal {
+            max-width: 90% !important;
+            width: 90% !important;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .transaction-modal table {
+            font-size: 0.9rem;
+        }
+        
+        .transaction-modal th,
+        .transaction-modal td {
+            padding: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .transaction-modal {
+                max-width: 95% !important;
+                width: 95% !important;
+            }
+            
+            .transaction-modal table {
+                font-size: 0.8rem;
+            }
+            
+            .transaction-modal th,
+            .transaction-modal td {
+                padding: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-landmark"></i> Modern Bank
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-view="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-view="about">About</a></li>
+                    <li><a href="#" class="nav-link" data-view="contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <div class="user-info" id="user-info" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name"></span>
+                </div>
+                <button class="btn btn-primary" id="login-btn">Login</button>
+                <button class="btn btn-outline" id="register-btn">Register</button>
+                <button class="btn btn-outline" id="logout-btn" style="display: none;">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Home View -->
+            <div id="home-view" class="view active">
+                <div class="hero">
+                    <h1>Welcome to Modern Bank</h1>
+                    <p>Experience banking redefined with our secure, fast, and convenient online banking portal. Manage your finances anytime, anywhere.</p>
+                    <button class="btn btn-primary" id="hero-get-started">Get Started</button>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Secure Transactions</h3>
+                        <p>Bank with confidence using our industry-leading security measures and encryption protocols.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile Banking</h3>
+                        <p>Access your accounts and perform transactions on the go with our mobile-friendly platform.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Financial Insights</h3>
+                        <p>Gain valuable insights into your spending habits with our detailed analytics and reports.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login View -->
+            <div id="login-view" class="view">
+                <div class="auth-container">
+                    <h2>Login to Your Account</h2>
+                    <div class="user-type-selector">
+                        <input type="radio" name="login-type" id="customer-login" value="customer" checked>
+                        <label for="customer-login">Customer</label>
+                        <input type="radio" name="login-type" id="manager-login" value="manager">
+                        <label for="manager-login">Bank Manager</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password">
+                    </div>
+                    <button class="btn btn-primary" id="do-login" style="width: 100%;">Login</button>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        Don't have an account? <a href="#" id="goto-register">Register here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Register View -->
+            <div id="register-view" class="view">
+                <div class="auth-container">
+                    <h2>Create an Account</h2>
+                    <div class="user-type-selector">
+                        <input type="radio" name="register-type" id="customer-register" value="customer" checked>
+                        <label for="customer-register">Customer</label>
+                        <input type="radio" name="register-type" id="manager-register" value="manager">
+                        <label for="manager-register">Bank Manager</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email Address</label>
+                        <input type="email" id="register-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" placeholder="Create a password">
+                    </div>
+                    <div class="form-group" id="initial-deposit-group">
+                        <label for="initial-deposit">Initial Deposit ($)</label>
+                        <input type="number" id="initial-deposit" placeholder="Enter initial deposit amount" value="100">
+                    </div>
+                    <div class="form-group" id="manager-code-group" style="display: none;">
+                        <label for="manager-code">Manager Code</label>
+                        <input type="password" id="manager-code" placeholder="Enter manager authorization code">
+                    </div>
+                    <button class="btn btn-primary" id="do-register" style="width: 100%;">Register</button>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        Already have an account? <a href="#" id="goto-login">Login here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Customer Dashboard -->
+            <div id="customer-dashboard" class="view">
+                <div class="dashboard-header">
+                    <h2 class="welcome-message">Welcome, <span id="customer-name"></span>!</h2>
+                    <button class="btn btn-outline" id="customer-logout">Logout</button>
+                </div>
+                
+                <div class="balance-card">
+                    <div class="balance-label">Your Balance</div>
+                    <div class="balance-amount">$<span id="customer-balance">0.00</span></div>
+                    <div class="balance-as-of">As of <span id="balance-date"></span></div>
+                </div>
+                
+                <div class="account-actions">
+                    <div class="action-card" data-action="deposit">
+                        <i class="fas fa-arrow-down"></i>
+                        <h3>Deposit Funds</h3>
+                        <p>Add money to your account</p>
+                    </div>
+                    <div class="action-card" data-action="withdraw">
+                        <i class="fas fa-arrow-up"></i>
+                        <h3>Withdraw Funds</h3>
+                        <p>Take money from your account</p>
+                    </div>
+                    <div class="action-card" data-action="transfer">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>Transfer Funds</h3>
+                        <p>Send money to another account</p>
+                    </div>
+                    <div class="action-card" data-action="statement">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <h3>View Statement</h3>
+                        <p>See your transaction history</p>
+                    </div>
+                </div>
+                
+                <div class="transaction-history">
+                    <h3>Recent Transactions</h3>
+                    <div class="filters">
+                        <input type="text" id="transaction-search" placeholder="Search transactions...">
+                        <select id="transaction-type-filter">
+                            <option value="all">All Types</option>
+                            <option value="deposit">Deposits</option>
+                            <option value="withdrawal">Withdrawals</option>
+                            <option value="transfer">Transfers</option>
+                        </select>
+                        <input type="date" id="transaction-date-filter">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-list">
+                            <!-- Transactions will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Manager Dashboard -->
+            <div id="manager-dashboard" class="view">
+                <div class="dashboard-header">
+                    <h2 class="welcome-message">Manager Dashboard</h2>
+                    <button class="btn btn-outline" id="manager-logout">Logout</button>
+                </div>
+                
+                <div class="stats-cards">
+                    <div class="features">
+                        <div class="feature-card">
+                            <i class="fas fa-users"></i>
+                            <h3>Total Customers</h3>
+                            <p id="total-customers">0</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h3>Total Funds</h3>
+                            <p id="total-funds">$0.00</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h3>Total Transactions</h3>
+                            <p id="total-transactions">0</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-calendar-day"></i>
+                            <h3>Transactions Today</h3>
+                            <p id="transactions-today">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-history">
+                    <h3>All Customers</h3>
+                    <div class="filters">
+                        <input type="text" id="customer-search" placeholder="Search customers by name or email...">
+                        <button class="btn btn-primary" id="view-all-transactions">View All Transactions</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Balance</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-list">
+                            <!-- Customers will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">
+                <i class="fas fa-landmark"></i> Modern Bank
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Security</a>
+                <a href="#">Help Center</a>
+            </div>
+            <p>&copy; 2023 Modern Bank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Transaction Modal -->
+    <div class="modal" id="transaction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Perform Transaction</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="transaction-amount">Amount ($)</label>
+                    <input type="number" id="transaction-amount" placeholder="Enter amount" min="0" step="0.01">
+                </div>
+                <div class="form-group" id="transfer-recipient-group" style="display: none;">
+                    <label for="transfer-recipient">Recipient Email</label>
+                    <input type="email" id="transfer-recipient" placeholder="Enter recipient's email">
+                </div>
+                <div class="form-group">
+                    <label for="transaction-description">Description</label>
+                    <input type="text" id="transaction-description" placeholder="Enter description">
+                </div>
+                <button class="btn btn-primary" id="confirm-transaction" style="width: 100%;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction View Modal -->
+    <div class="modal" id="transaction-view-modal">
+        <div class="modal-content transaction-modal">
+            <div class="modal-header">
+                <h2 id="transaction-view-title">Customer Transactions</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-history">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-view-list">
+                            <!-- Transactions will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage and initialization
+        const initializeData = () => {
+            if (!localStorage.getItem('users')) {
+                const users = [
+                    {
+                        id: 1,
+                        name: 'John Doe',
+                        email: 'john@example.com',
+                        password: 'password123',
+                        type: 'customer',
+                        balance: 5000.00,
+                        joined: '2023-01-15'
+                    },
+                    {
+                        id: 2,
+                        name: 'Jane Smith',
+                        email: 'jane@example.com',
+                        password: 'password123',
+                        type: 'customer',
+                        balance: 3200.50,
+                        joined: '2023-02-20'
+                    },
+                    {
+                        id: 3,
+                        name: 'Bank Manager',
+                        email: 'manager@bank.com',
+                        password: 'manager123',
+                        type: 'manager',
+                        joined: '2023-01-01'
+                    }
+                ];
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            if (!localStorage.getItem('transactions')) {
+                const transactions = [
+                    {
+                        id: 1,
+                        userId: 1,
+                        type: 'deposit',
+                        amount: 1000.00,
+                        description: 'Initial deposit',
+                        date: '2023-01-15T10:30:00',
+                        balance: 1000.00
+                    },
+                    {
+                        id: 2,
+                        userId: 1,
+                        type: 'withdrawal',
+                        amount: 200.00,
+                        description: 'ATM withdrawal',
+                        date: '2023-01-20T14:22:00',
+                        balance: 800.00
+                    },
+                    {
+                        id: 3,
+                        userId: 2,
+                        type: 'deposit',
+                        amount: 1500.00,
+                        description: 'Paycheck deposit',
+                        date: '2023-01-18T09:15:00',
+                        balance: 1500.00
+                    },
+                    {
+                        id: 4,
+                        fromUserId: 1,
+                        toUserId: 2,
+                        type: 'transfer',
+                        amount: 300.00,
+                        description: 'Transfer to Jane',
+                        date: '2023-01-25T16:45:00',
+                        fromBalance: 4700.00,
+                        toBalance: 3500.50
+                    }
+                ];
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+            }
+            
+            if (!localStorage.getItem('nextUserId')) {
+                localStorage.setItem('nextUserId', '4');
+            }
+            
+            if (!localStorage.getItem('nextTransactionId')) {
+                localStorage.setItem('nextTransactionId', '5');
+            }
+        };
+
+        // Utility functions
+        const getUsers = () => JSON.parse(localStorage.getItem('users')) || [];
+        const setUsers = (users) => localStorage.setItem('users', JSON.stringify(users));
+        
+        const getTransactions = () => JSON.parse(localStorage.getItem('transactions')) || [];
+        const setTransactions = (transactions) => localStorage.setItem('transactions', JSON.stringify(transactions));
+        
+        const getNextUserId = () => {
+            const nextId = parseInt(localStorage.getItem('nextUserId'));
+            localStorage.setItem('nextUserId', (nextId + 1).toString());
+            return nextId;
+        };
+        
+        const getNextTransactionId = () => {
+            const nextId = parseInt(localStorage.getItem('nextTransactionId'));
+            localStorage.setItem('nextTransactionId', (nextId + 1).toString());
+            return nextId;
+        };
+        
+        const formatCurrency = (amount) => {
+            return parseFloat(amount).toFixed(2);
+        };
+        
+        const formatDate = (dateString) => {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+        
+        const showNotification = (message, type = 'success') => {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        };
+
+        // View management
+        const showView = (viewId) => {
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+            
+            // Scroll to top when changing views
+            window.scrollTo(0, 0);
+        };
+        
+        const showModal = (modalId) => {
+            document.getElementById(modalId).classList.add('active');
+        };
+        
+        const hideModal = (modalId) => {
+            document.getElementById(modalId).classList.remove('active');
+        };
+
+        // Update header based on login status
+        const updateHeader = () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const userInfo = document.getElementById('user-info');
+            const userName = document.getElementById('user-name');
+            
+            if (currentUser) {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                userInfo.style.display = 'flex';
+                userName.textContent = currentUser.name;
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+                userInfo.style.display = 'none';
+            }
+        };
+
+        // Authentication functions
+        const login = (email, password, userType) => {
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password && u.type === userType);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateHeader();
+                return user;
+            }
+            return null;
+        };
+        
+        const register = (name, email, password, userType, initialDeposit = 0) => {
+            const users = getUsers();
+            
+            // Check if email already exists
+            if (users.some(u => u.email === email)) {
+                showNotification('Email already registered. Please use a different email.', 'error');
+                return null;
+            }
+            
+            const newUser = {
+                id: getNextUserId(),
+                name,
+                email,
+                password,
+                type: userType,
+                balance: userType === 'customer' ? parseFloat(initialDeposit) : undefined,
+                joined: new Date().toISOString().split('T')[0]
+            };
+            
+            users.push(newUser);
+            setUsers(users);
+            
+            // If customer, create initial deposit transaction
+            if (userType === 'customer' && initialDeposit > 0) {
+                addTransaction({
+                    userId: newUser.id,
+                    type: 'deposit',
+                    amount: parseFloat(initialDeposit),
+                    description: 'Initial deposit',
+                    balance: parseFloat(initialDeposit)
+                });
+            }
+            
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            updateHeader();
+            return newUser;
+        };
+        
+        const logout = () => {
+            localStorage.removeItem('currentUser');
+            updateHeader();
+            showView('home-view');
+            showNotification('You have been logged out successfully.');
+        };
+
+        // Transaction functions
+        const addTransaction = (transaction) => {
+            const transactions = getTransactions();
+            transaction.id = getNextTransactionId();
+            transaction.date = new Date().toISOString();
+            transactions.push(transaction);
+            setTransactions(transactions);
+            return transaction;
+        };
+        
+        const processDeposit = (userId, amount, description) => {
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === userId);
+            
+            if (userIndex !== -1 && users[userIndex].type === 'customer') {
+                users[userIndex].balance += parseFloat(amount);
+                setUsers(users);
+                
+                const newTransaction = addTransaction({
+                    userId,
+                    type: 'deposit',
+                    amount: parseFloat(amount),
+                    description,
+                    balance: users[userIndex].balance
+                });
+                
+                // Update current user if it's the same user
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.id === userId) {
+                    currentUser.balance = users[userIndex].balance;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                return {newBalance: users[userIndex].balance, transaction: newTransaction};
+            }
+            return null;
+        };
+        
+        const processWithdrawal = (userId, amount, description) => {
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === userId);
+            
+            if (userIndex !== -1 && users[userIndex].type === 'customer') {
+                if (users[userIndex].balance < parseFloat(amount)) {
+                    showNotification('Insufficient funds for this withdrawal.', 'error');
+                    return null;
+                }
+                
+                users[userIndex].balance -= parseFloat(amount);
+                setUsers(users);
+                
+                const newTransaction = addTransaction({
+                    userId,
+                    type: 'withdrawal',
+                    amount: parseFloat(amount),
+                    description,
+                    balance: users[userIndex].balance
+                });
+                
+                // Update current user if it's the same user
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.id === userId) {
+                    currentUser.balance = users[userIndex].balance;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                return {newBalance: users[userIndex].balance, transaction: newTransaction};
+            }
+            return null;
+        };
+        
+        const processTransfer = (fromUserId, toEmail, amount, description) => {
+            const users = getUsers();
+            const fromUserIndex = users.findIndex(u => u.id === fromUserId);
+            const toUserIndex = users.findIndex(u => u.email === toEmail);
+            
+            if (fromUserIndex === -1 || users[fromUserIndex].type !== 'customer') {
+                showNotification('Invalid sender account.', 'error');
+                return null;
+            }
+            
+            if (toUserIndex === -1 || users[toUserIndex].type !== 'customer') {
+                showNotification('Recipient not found.', 'error');
+                return null;
+            }
+            
+            if (users[fromUserIndex].balance < parseFloat(amount)) {
+                showNotification('Insufficient funds for this transfer.', 'error');
+                return null;
+            }
+            
+            if (users[fromUserIndex].email === toEmail) {
+                showNotification('You cannot transfer money to yourself.', 'error');
+                return null;
+            }
+            
+            // Update balances
+            users[fromUserIndex].balance -= parseFloat(amount);
+            users[toUserIndex].balance += parseFloat(amount);
+            setUsers(users);
+            
+            // Record transaction
+            const newTransaction = addTransaction({
+                fromUserId,
+                toUserId: users[toUserIndex].id,
+                type: 'transfer',
+                amount: parseFloat(amount),
+                description,
+                fromBalance: users[fromUserIndex].balance,
+                toBalance: users[toUserIndex].balance
+            });
+            
+            // Update current user if it's the same user
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.id === fromUserId) {
+                currentUser.balance = users[fromUserIndex].balance;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+            
+            return {newBalance: users[fromUserIndex].balance, transaction: newTransaction};
+        };
+        
+        const getCustomerTransactions = (userId) => {
+            const transactions = getTransactions();
+            return transactions.filter(t => 
+                t.userId === userId || 
+                t.fromUserId === userId || 
+                t.toUserId === userId
+            ).sort((a, b) => new Date(b.date) - new Date(a.date));
+        };
+        
+        const getAllTransactions = () => {
+            return getTransactions().sort((a, b) => new Date(b.date) - new Date(a.date));
+        };
+        
+        const getTodaysTransactions = () => {
+            const today = new Date().toISOString().split('T')[0];
+            return getTransactions().filter(t => t.date.split('T')[0] === today);
+        };
+
+        // UI Update functions
+        const updateCustomerDashboard = (user) => {
+            document.getElementById('customer-name').textContent = user.name;
+            document.getElementById('customer-balance').textContent = formatCurrency(user.balance);
+            document.getElementById('balance-date').textContent = new Date().toLocaleDateString();
+            
+            // Load transactions
+            const transactions = getCustomerTransactions(user.id);
+            const transactionList = document.getElementById('transaction-list');
+            transactionList.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                // Determine transaction display text
+                let description = transaction.description;
+                let balanceChange = '';
+                let currentBalance = '';
+                
+                if (transaction.type === 'transfer') {
+                    const users = getUsers();
+                    if (transaction.fromUserId === user.id) {
+                        const recipient = users.find(u => u.id === transaction.toUserId);
+                        description = `Transfer to ${recipient ? recipient.name : 'Unknown'}`;
+                        balanceChange = `<span style="color: var(--danger);">-$${formatCurrency(transaction.amount)}</span>`;
+                        currentBalance = `$${formatCurrency(transaction.fromBalance)}`;
+                    } else {
+                        const sender = users.find(u => u.id === transaction.fromUserId);
+                        description = `Transfer from ${sender ? sender.name : 'Unknown'}`;
+                        balanceChange = `<span style="color: var(--success);">+$${formatCurrency(transaction.amount)}</span>`;
+                        currentBalance = `$${formatCurrency(transaction.toBalance)}`;
+                    }
+                } else {
+                    if (transaction.type === 'deposit') {
+                        balanceChange = `<span style="color: var(--success);">+$${formatCurrency(transaction.amount)}</span>`;
+                    } else {
+                        balanceChange = `<span style="color: var(--danger);">-$${formatCurrency(transaction.amount)}</span>`;
+                    }
+                    currentBalance = `$${formatCurrency(transaction.balance)}`;
+                }
+                
+                row.innerHTML = `
+                    <td>${formatDate(transaction.date)}</td>
+                    <td>${description}</td>
+                    <td><span class="transaction-type ${transaction.type}">${transaction.type}</span></td>
+                    <td>${balanceChange}</td>
+                    <td>${currentBalance}</td>
+                `;
+                
+                transactionList.appendChild(row);
+            });
+        };
+        
+        const updateManagerDashboard = () => {
+            const users = getUsers();
+            const transactions = getTransactions();
+            const todaysTransactions = getTodaysTransactions();
+            
+            // Update stats
+            const customers = users.filter(u => u.type === 'customer');
+            document.getElementById('total-customers').textContent = customers.length;
+            
+            const totalFunds = customers.reduce((sum, customer) => sum + customer.balance, 0);
+            document.getElementById('total-funds').textContent = `$${formatCurrency(totalFunds)}`;
+            
+            document.getElementById('total-transactions').textContent = transactions.length;
+            document.getElementById('transactions-today').textContent = todaysTransactions.length;
+            
+            // Update customers list
+            const customersList = document.getElementById('customers-list');
+            customersList.innerHTML = '';
+            
+            customers.forEach(customer => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${customer.id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.email}</td>
+                    <td>$${formatCurrency(customer.balance)}</td>
+                    <td>
+                        <button class="btn btn-primary view-customer-btn" data-id="${customer.id}">View Transactions</button>
+                    </td>
+                `;
+                
+                customersList.appendChild(row);
+            });
+            
+            // Add event listeners to view customer buttons
+            document.querySelectorAll('.view-customer-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const customerId = parseInt(e.target.getAttribute('data-id'));
+                    viewCustomerTransactions(customerId);
+                });
+            });
+            
+            // Add search functionality
+            const customerSearch = document.getElementById('customer-search');
+            customerSearch.addEventListener('input', () => {
+                const searchTerm = customerSearch.value.toLowerCase();
+                const rows = customersList.querySelectorAll('tr');
+                
+                rows.forEach(row => {
+                    const name = row.cells[1].textContent.toLowerCase();
+                    const email = row.cells[2].textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        };
+        
+        const viewCustomerTransactions = (customerId) => {
+            const users = getUsers();
+            const customer = users.find(u => u.id === customerId);
+            const transactions = getCustomerTransactions(customerId);
+            
+            // Update modal title
+            document.getElementById('transaction-view-title').textContent = `Transactions for ${customer.name}`;
+            
+            // Populate transaction list
+            const transactionList = document.getElementById('transaction-view-list');
+            transactionList.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                // Determine transaction display text
+                let description = transaction.description;
+                let balanceChange = '';
+                let currentBalance = '';
+                
+                if (transaction.type === 'transfer') {
+                    if (transaction.fromUserId === customerId) {
+                        const recipient = users.find(u => u.id === transaction.toUserId);
+                        description = `Transfer to ${recipient ? recipient.name : 'Unknown'}`;
+                        balanceChange = `<span style="color: var(--danger);">-$${formatCurrency(transaction.amount)}</span>`;
+                        currentBalance = `$${formatCurrency(transaction.fromBalance)}`;
+                    } else {
+                        const sender = users.find(u => u.id === transaction.fromUserId);
+                        description = `Transfer from ${sender ? sender.name : 'Unknown'}`;
+                        balanceChange = `<span style="color: var(--success);">+$${formatCurrency(transaction.amount)}</span>`;
+                        currentBalance = `$${formatCurrency(transaction.toBalance)}`;
+                    }
+                } else {
+                    if (transaction.type === 'deposit') {
+                        balanceChange = `<span style="color: var(--success);">+$${formatCurrency(transaction.amount)}</span>`;
+                    } else {
+                        balanceChange = `<span style="color: var(--danger);">-$${formatCurrency(transaction.amount)}</span>`;
+                    }
+                    currentBalance = `$${formatCurrency(transaction.balance)}`;
+                }
+                
+                row.innerHTML = `
+                    <td>${formatDate(transaction.date)}</td>
+                    <td>${description}</td>
+                    <td><span class="transaction-type ${transaction.type}">${transaction.type}</span></td>
+                    <td>${balanceChange}</td>
+                    <td>${currentBalance}</td>
+                `;
+                
+                transactionList.appendChild(row);
+            });
+            
+            // Show the transaction view modal
+            showModal('transaction-view-modal');
+        };
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize data
+            initializeData();
+            
+            // Update header based on login status
+            updateHeader();
+            
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+                document.querySelector('nav ul').classList.toggle('show');
+            });
+            
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                if (currentUser.type === 'customer') {
+                    updateCustomerDashboard(currentUser);
+                    showView('customer-dashboard');
+                } else if (currentUser.type === 'manager') {
+                    updateManagerDashboard();
+                    showView('manager-dashboard');
+                }
+            }
+            
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showView('home-view');
+                });
+            });
+            
+            // Hero get started button
+            document.getElementById('hero-get-started').addEventListener('click', () => {
+                showView('register-view');
+            });
+            
+            // Auth buttons
+            document.getElementById('login-btn').addEventListener('click', () => {
+                showView('login-view');
+            });
+            
+            document.getElementById('register-btn').addEventListener('click', () => {
+                showView('register-view');
+            });
+            
+            document.getElementById('goto-register').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('register-view');
+            });
+            
+            document.getElementById('goto-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('login-view');
+            });
+            
+            // User type selector
+            document.querySelectorAll('input[name="register-type"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const managerCodeGroup = document.getElementById('manager-code-group');
+                    const initialDepositGroup = document.getElementById('initial-deposit-group');
+                    if (radio.value === 'manager') {
+                        managerCodeGroup.style.display = 'block';
+                        initialDepositGroup.style.display = 'none';
+                    } else {
+                        managerCodeGroup.style.display = 'none';
+                        initialDepositGroup.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.querySelectorAll('input[name="login-type"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    // You can add specific login form changes here if needed
+                });
+            });
+            
+            // Register form
+            document.getElementById('do-register').addEventListener('click', () => {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const userType = document.querySelector('input[name="register-type"]:checked').value;
+                const initialDeposit = document.getElementById('initial-deposit').value;
+                const managerCode = document.getElementById('manager-code').value;
+                
+                if (!name || !email || !password) {
+                    showNotification('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                if (userType === 'manager') {
+                    if (managerCode !== 'MANAGER2023') {
+                        showNotification('Invalid manager authorization code.', 'error');
+                        return;
+                    }
+                }
+                
+                const user = register(name, email, password, userType, initialDeposit);
+                if (user) {
+                    if (user.type === 'customer') {
+                        updateCustomerDashboard(user);
+                        showView('customer-dashboard');
+                        showNotification('Registration successful! Welcome to Modern Bank.');
+                    } else {
+                        updateManagerDashboard();
+                        showView('manager-dashboard');
+                        showNotification('Manager account created successfully.');
+                    }
+                }
+            });
+            
+            // Login form
+            document.getElementById('do-login').addEventListener('click', () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const userType = document.querySelector('input[name="login-type"]:checked').value;
+                
+                if (!email || !password) {
+                    showNotification('Please enter both email and password.', 'error');
+                    return;
+                }
+                
+                const user = login(email, password, userType);
+                if (user) {
+                    if (user.type === 'customer') {
+                        updateCustomerDashboard(user);
+                        showView('customer-dashboard');
+                        showNotification('Login successful! Welcome back.');
+                    } else {
+                        updateManagerDashboard();
+                        showView('manager-dashboard');
+                        showNotification('Manager login successful.');
+                    }
+                } else {
+                    showNotification('Invalid email or password.', 'error');
+                }
+            });
+            
+            // Logout buttons
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('customer-logout').addEventListener('click', logout);
+            document.getElementById('manager-logout').addEventListener('click', logout);
+            
+            // Transaction actions
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const action = card.getAttribute('data-action');
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    
+                    if (!currentUser) return;
+                    
+                    if (action === 'statement') {
+                        // Already viewing statement
+                        return;
+                    }
+                    
+                    // Show transaction modal
+                    const modal = document.getElementById('transaction-modal');
+                    const title = modal.querySelector('#modal-title');
+                    const amountInput = document.getElementById('transaction-amount');
+                    const recipientGroup = document.getElementById('transfer-recipient-group');
+                    const descriptionInput = document.getElementById('transaction-description');
+                    const confirmBtn = document.getElementById('confirm-transaction');
+                    
+                    // Reset form
+                    amountInput.value = '';
+                    descriptionInput.value = '';
+                    
+                    // Set up modal based on action
+                    if (action === 'deposit') {
+                        title.textContent = 'Deposit Funds';
+                        recipientGroup.style.display = 'none';
+                    } else if (action === 'withdraw') {
+                        title.textContent = 'Withdraw Funds';
+                        recipientGroup.style.display = 'none';
+                    } else if (action === 'transfer') {
+                        title.textContent = 'Transfer Funds';
+                        recipientGroup.style.display = 'block';
+                    }
+                    
+                    // Set up confirm button
+                    confirmBtn.onclick = () => {
+                        const amount = parseFloat(amountInput.value);
+                        const description = descriptionInput.value;
+                        
+                        if (!amount || amount <= 0) {
+                            showNotification('Please enter a valid amount.', 'error');
+                            return;
+                        }
+                        
+                        if (action === 'deposit') {
+                            const result = processDeposit(currentUser.id, amount, description);
+                            if (result !== null) {
+                                updateCustomerDashboard(currentUser);
+                                hideModal('transaction-modal');
+                                showNotification('Deposit successful!');
+                            }
+                        } else if (action === 'withdraw') {
+                            const result = processWithdrawal(currentUser.id, amount, description);
+                            if (result !== null) {
+                                updateCustomerDashboard(currentUser);
+                                hideModal('transaction-modal');
+                                showNotification('Withdrawal successful!');
+                            }
+                        } else if (action === 'transfer') {
+                            const recipientEmail = document.getElementById('transfer-recipient').value;
+                            if (!recipientEmail) {
+                                showNotification('Please enter recipient email.', 'error');
+                                return;
+                            }
+                            
+                            const result = processTransfer(currentUser.id, recipientEmail, amount, description);
+                            if (result !== null) {
+                                updateCustomerDashboard(currentUser);
+                                hideModal('transaction-modal');
+                                showNotification('Transfer successful!');
+                            }
+                        }
+                    };
+                    
+                    showModal('transaction-modal');
+                });
+            });
+            
+            // Close modal buttons
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    hideModal('transaction-modal');
+                    hideModal('transaction-view-modal');
+                });
+            });
+            
+            // View all transactions (manager)
+            document.getElementById('view-all-transactions').addEventListener('click', () => {
+                const transactions = getAllTransactions();
+                const users = getUsers();
+                
+                // Update modal title
+                document.getElementById('transaction-view-title').textContent = 'All System Transactions';
+                
+                // Populate transaction list
+                const transactionList = document.getElementById('transaction-view-list');
+                transactionList.innerHTML = '';
+                
+                transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    
+                    let userInfo = 'System';
+                    if (transaction.userId) {
+                        const user = users.find(u => u.id === transaction.userId);
+                        userInfo = user ? user.name : 'Unknown';
+                    } else if (transaction.fromUserId) {
+                        const user = users.find(u => u.id === transaction.fromUserId);
+                        userInfo = user ? user.name : 'Unknown';
+                    }
+                    
+                    let amountDisplay = '';
+                    if (transaction.type === 'deposit') {
+                        amountDisplay = `<span style="color: var(--success);">+$${formatCurrency(transaction.amount)}</span>`;
+                    } else if (transaction.type === 'withdrawal') {
+                        amountDisplay = `<span style="color: var(--danger);">-$${formatCurrency(transaction.amount)}</span>`;
+                    } else {
+                        amountDisplay = `$${formatCurrency(transaction.amount)}`;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td>${transaction.description}</td>
+                        <td><span class="transaction-type ${transaction.type}">${transaction.type}</span></td>
+                        <td>${amountDisplay}</td>
+                        <td>${userInfo}</td>
+                    `;
+                    
+                    transactionList.appendChild(row);
+                });
+                
+                // Show the transaction view modal
+                showModal('transaction-view-modal');
+            });
+            
+            // Transaction filtering
+            const setupTransactionFilters = () => {
+                const searchInput = document.getElementById('transaction-search');
+                const typeFilter = document.getElementById('transaction-type-filter');
+                const dateFilter = document.getElementById('transaction-date-filter');
+                const transactionList = document.getElementById('transaction-list');
+                
+                const filterTransactions = () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const typeValue = typeFilter.value;
+                    const dateValue = dateFilter.value;
+                    
+                    const rows = transactionList.querySelectorAll('tr');
+                    
+                    rows.forEach(row => {
+                        const description = row.cells[1].textContent.toLowerCase();
+                        const type = row.cells[2].textContent.toLowerCase();
+                        const date = row.cells[0].textContent;
+                        
+                        const matchesSearch = description.includes(searchTerm);
+                        const matchesType = typeValue === 'all' || type === typeValue;
+                        const matchesDate = !dateValue || date.includes(dateValue);
+                        
+                        if (matchesSearch && matchesType && matchesDate) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                };
+                
+                searchInput.addEventListener('input', filterTransactions);
+                typeFilter.addEventListener('change', filterTransactions);
+                dateFilter.addEventListener('change', filterTransactions);
+            };
+            
+            // Initialize transaction filters when customer dashboard is shown
+            const customerDashboard = document.getElementById('customer-dashboard');
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        if (customerDashboard.classList.contains('active')) {
+                            setupTransactionFilters();
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(customerDashboard, { attributes: true });
+        });
+    </script>
+</body>
+</html>
