@@ -2,76 +2,14 @@
         const initializeData = () => {
             if (!localStorage.getItem('users')) {
                 const users = [
-                    {
-                        id: 1,
-                        name: 'John Doe',
-                        email: 'john@example.com',
-                        password: 'password123',
-                        type: 'customer',
-                        balance: 5500.00, // updated
-                        joined: '2025-07-15'
-                    },
-                    {
-                        id: 2,
-                        name: 'Jane Smith',
-                        email: 'jane@example.com',
-                        password: 'password123',
-                        type: 'customer',
-                        balance: 11800.00, // updated
-                        joined: '2025-07-20'
-                    },
-                    {
-                        id: 3,
-                        name: 'Bank Manager',
-                        email: 'manager@bank.com',
-                        password: 'manager123',
-                        type: 'manager',
-                        joined: '2025-01-01'
-                    }
+                    
                 ];
                 localStorage.setItem('users', JSON.stringify(users));
             }
             
             if (!localStorage.getItem('transactions')) {
                 const transactions = [
-                    {
-                        id: 1,
-                        userId: 1,
-                        type: 'deposit',
-                        amount: 1000.00,
-                        description: 'Initial deposit',
-                        date: '2025-07-15T10:30:00',
-                        balance: 6000.00 // corrected
-                    },
-                    {
-                        id: 2,
-                        userId: 1,
-                        type: 'withdrawal',
-                        amount: 200.00,
-                        description: 'ATM withdrawal',
-                        date: '2025-07-20T14:22:00',
-                        balance: 5800.00 // corrected
-                    },
-                    {
-                        id: 3,
-                        userId: 2,
-                        type: 'deposit',
-                        amount: 1500.00,
-                        description: 'Paycheck deposit',
-                        date: '2025-07-25T09:15:00',
-                        balance: 11500.00 // corrected
-                    },
-                    {
-                        id: 4,
-                        fromUserId: 1,
-                        toUserId: 2,
-                        type: 'transfer',
-                        amount: 300.00,
-                        description: 'Transfer to Jane',
-                        date: '2025-07-25T16:45:00',
-                        fromBalance: 5500.00, // corrected
-                        toBalance: 11800.00  // corrected
-                    }
+                    
                 ];
                 localStorage.setItem('transactions', JSON.stringify(transactions));
             }
